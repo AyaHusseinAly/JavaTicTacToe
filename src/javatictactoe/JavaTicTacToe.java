@@ -5,10 +5,8 @@
  */
 package javatictactoe;
 
-import java.io.File;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
 import javafx.stage.Stage;
 
 /**
@@ -16,33 +14,14 @@ import javafx.stage.Stage;
  * @author Aya Hussein
  */
 public class JavaTicTacToe extends Application {
-
+    Thread th;
     @Override
     public void start(Stage primaryStage) {
         
-        
- /*       
-        imageView.setFitHeight(400.0);
-        imageView.setFitWidth(565.0);
-        imageView.setPickOnBounds(true);
-        imageView.setPreserveRatio(true);
-        //imageView.setImage(new Image(getClass().getResource("../../gamebckground.PNG").toExternalForm()));
- 
-        Button btn = new Button();
-        btn.setText("Say 'Hello World'");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-            
-            @Override
-            public void handle(ActionEvent event) {
-                System.out.println("Hello World!");
-            }
-        });
-        
-        StackPane root = new StackPane();
-        root.getChildren().add(btn);
-       root.getChildren().add(imageView);
-       */
         GUIBase root=new GUIBase();
+        th= new Thread(root);
+        th.start();
+        
         Scene scene = new Scene(root, 530, 400);
         
         

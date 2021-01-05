@@ -1,6 +1,9 @@
 package javatictactoe;
 
+import java.io.DataInputStream;
 import java.io.File;
+import java.io.PrintStream;
+import java.net.Socket;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
@@ -9,15 +12,97 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Rectangle;
 
-public class GUIBase extends AnchorPane{ //implements Initializable  {
-  /*  
+public class GUIBase extends AnchorPane implements Runnable{ 
+    Socket mySocket;
+    DataInputStream dis;
+    PrintStream ps;
+    
+    
     @Override
-    public void initialize(URL location, ResourceBundle resources) {
-    File file = new File("../../gamebckground.PNG");
-    Image image = new Image(file.toURI().toString());
-    imageView.setImage(image);
-  }    
-  */  
+    public void run() {
+        while(true){
+         try{
+            dis=new DataInputStream(mySocket.getInputStream());
+            String replyMsg=dis.readLine();
+            System.out.println(replyMsg);
+            //switch case 
+            if(xoFlag==0){  
+                    xoFlag=1;
+                    File file=new File("D:\\ITI\\Java\\JavaTicTacToe\\Ximg.PNG");
+                    Image image = new Image(file.toURI().toString());
+                    switch(replyMsg){
+                        case "rect0":
+                                   imageView0.setImage(image);
+                                   break;
+                        case "rect1":
+                                   imageView1.setImage(image);
+                                   break;   
+                        case "rect2":
+                                   imageView2.setImage(image);
+                                   break;                                   
+                        case "rect3":
+                                   imageView3.setImage(image);
+                                   break;                    
+                         case "rect4":
+                                   imageView4.setImage(image);
+                                   break;                   
+                        case "rect5":
+                                   imageView5.setImage(image);
+                                   break;                    
+                        case "rect6":
+                                   imageView6.setImage(image);
+                                   break;                
+                        case "rect7":
+                                   imageView7.setImage(image);
+                                   break;
+                        case "rect8":
+                                   imageView8.setImage(image);
+                                   break;                                   
+                    }
+ 
+                    
+            }
+            else{
+                    xoFlag=0;
+                    File file=new File("D:\\ITI\\Java\\JavaTicTacToe\\Oimg.PNG");
+                    Image image = new Image(file.toURI().toString());
+                    switch(replyMsg){
+                        case "rect0":
+                                   imageView0.setImage(image);
+                                   break;
+                        case "rect1":
+                                   imageView1.setImage(image);
+                                   break;   
+                        case "rect2":
+                                   imageView2.setImage(image);
+                                   break;                                   
+                        case "rect3":
+                                   imageView3.setImage(image);
+                                   break;                    
+                         case "rect4":
+                                   imageView4.setImage(image);
+                                   break;                   
+                        case "rect5":
+                                   imageView5.setImage(image);
+                                   break;                    
+                        case "rect6":
+                                   imageView6.setImage(image);
+                                   break;                
+                        case "rect7":
+                                   imageView7.setImage(image);
+                                   break;
+                        case "rect8":
+                                   imageView8.setImage(image);
+                                   break;                                   
+                    }
+                    
+             }        
+            
+        }
+        catch(Exception ex){
+           ex.printStackTrace();}       
+    }
+    }
     int xoFlag=0;
     protected final ImageView imageView;
     protected final Rectangle rectangle;
@@ -71,6 +156,14 @@ public class GUIBase extends AnchorPane{ //implements Initializable  {
         imageView.setPreserveRatio(true);
         
 
+             try{
+                    mySocket=new Socket("127.0.0.1",5005);
+
+        }
+        catch(Exception ex){
+                  ex.printStackTrace();
+                  }
+             
         //imageView.setImage(new Image(getClass().getResource("../../gamebckground.PNG").toExternalForm()));
     //File file = new File("../../gamebckground.PNG");
     File file=new File("D:\\ITI\\Java\\JavaTicTacToe\\gamebckground.PNG");
@@ -255,40 +348,24 @@ imageView0.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent
 
                         @Override
                         public void handle(MouseEvent event) {
- 
-                             if(xoFlag==0){
-                            
-                                File file=new File("D:\\ITI\\Java\\JavaTicTacToe\\Ximg.PNG");
-                                Image image = new Image(file.toURI().toString());
-                                imageView0.setImage(image);
-                                xoFlag=1;
-                             }
-                             else{
-                                File file=new File("D:\\ITI\\Java\\JavaTicTacToe\\Oimg.PNG");
-                                Image image = new Image(file.toURI().toString());
-                                imageView0.setImage(image);
-                                xoFlag=0;
-                             }
+                             try{
+                                ps=new PrintStream(mySocket.getOutputStream());
+                                ps.println("rect0"+"\n");
+                                }catch(Exception ex){
+                                ex.printStackTrace();
+                                }
                         }
                     });        
 imageView1.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent>() {
 
                         @Override
                         public void handle(MouseEvent event) {
- 
-                             if(xoFlag==0){
-                            
-                                File file=new File("D:\\ITI\\Java\\JavaTicTacToe\\Ximg.PNG");
-                                Image image = new Image(file.toURI().toString());
-                                imageView1.setImage(image);
-                                xoFlag=1;
-                             }
-                             else{
-                                File file=new File("D:\\ITI\\Java\\JavaTicTacToe\\Oimg.PNG");
-                                Image image = new Image(file.toURI().toString());
-                                imageView1.setImage(image);
-                                xoFlag=0;
-                             }
+                             try{
+                                ps=new PrintStream(mySocket.getOutputStream());
+                                ps.println("rect1"+"\n");
+                                }catch(Exception ex){
+                                ex.printStackTrace();
+                                }
                         }
                     });
 
@@ -296,20 +373,12 @@ imageView2.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent
 
                         @Override
                         public void handle(MouseEvent event) {
- 
-                             if(xoFlag==0){
-                            
-                                File file=new File("D:\\ITI\\Java\\JavaTicTacToe\\Ximg.PNG");
-                                Image image = new Image(file.toURI().toString());
-                                imageView2.setImage(image);
-                                xoFlag=1;
-                             }
-                             else{
-                                File file=new File("D:\\ITI\\Java\\JavaTicTacToe\\Oimg.PNG");
-                                Image image = new Image(file.toURI().toString());
-                                imageView2.setImage(image);
-                                xoFlag=0;
-                             }
+                              try{
+                                ps=new PrintStream(mySocket.getOutputStream());
+                                ps.println("rect2"+"\n");
+                                }catch(Exception ex){
+                                ex.printStackTrace();
+                                }
                         }
                     });
 
@@ -317,20 +386,12 @@ imageView3.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent
 
                         @Override
                         public void handle(MouseEvent event) {
- 
-                             if(xoFlag==0){
-                            
-                                File file=new File("D:\\ITI\\Java\\JavaTicTacToe\\Ximg.PNG");
-                                Image image = new Image(file.toURI().toString());
-                                imageView3.setImage(image);
-                                xoFlag=1;
-                             }
-                             else{
-                                File file=new File("D:\\ITI\\Java\\JavaTicTacToe\\Oimg.PNG");
-                                Image image = new Image(file.toURI().toString());
-                                imageView3.setImage(image);
-                                xoFlag=0;
-                             }
+                             try{
+                                ps=new PrintStream(mySocket.getOutputStream());
+                                ps.println("rect3"+"\n");
+                                }catch(Exception ex){
+                                ex.printStackTrace();
+                                }
                         }
                     });
 
@@ -338,20 +399,12 @@ imageView4.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent
 
                         @Override
                         public void handle(MouseEvent event) {
- 
-                             if(xoFlag==0){
-                            
-                                File file=new File("D:\\ITI\\Java\\JavaTicTacToe\\Ximg.PNG");
-                                Image image = new Image(file.toURI().toString());
-                                imageView4.setImage(image);
-                                xoFlag=1;
-                             }
-                             else{
-                                File file=new File("D:\\ITI\\Java\\JavaTicTacToe\\Oimg.PNG");
-                                Image image = new Image(file.toURI().toString());
-                                imageView4.setImage(image);
-                                xoFlag=0;
-                             }
+                             try{
+                                ps=new PrintStream(mySocket.getOutputStream());
+                                ps.println("rect4"+"\n");
+                                }catch(Exception ex){
+                                ex.printStackTrace();
+                                }
                         }
                     });
 
@@ -359,20 +412,12 @@ imageView5.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent
 
                         @Override
                         public void handle(MouseEvent event) {
- 
-                             if(xoFlag==0){
-                            
-                                File file=new File("D:\\ITI\\Java\\JavaTicTacToe\\Ximg.PNG");
-                                Image image = new Image(file.toURI().toString());
-                                imageView5.setImage(image);
-                                xoFlag=1;
-                             }
-                             else{
-                                File file=new File("D:\\ITI\\Java\\JavaTicTacToe\\Oimg.PNG");
-                                Image image = new Image(file.toURI().toString());
-                                imageView5.setImage(image);
-                                xoFlag=0;
-                             }
+                             try{
+                                ps=new PrintStream(mySocket.getOutputStream());
+                                ps.println("rect5"+"\n");
+                                }catch(Exception ex){
+                                ex.printStackTrace();
+                                }
                         }
                     });
 
@@ -380,20 +425,12 @@ imageView6.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent
 
                         @Override
                         public void handle(MouseEvent event) {
- 
-                             if(xoFlag==0){
-                            
-                                File file=new File("D:\\ITI\\Java\\JavaTicTacToe\\Ximg.PNG");
-                                Image image = new Image(file.toURI().toString());
-                                imageView6.setImage(image);
-                                xoFlag=1;
-                             }
-                             else{
-                                File file=new File("D:\\ITI\\Java\\JavaTicTacToe\\Oimg.PNG");
-                                Image image = new Image(file.toURI().toString());
-                                imageView6.setImage(image);
-                                xoFlag=0;
-                             }
+                             try{
+                                ps=new PrintStream(mySocket.getOutputStream());
+                                ps.println("rect6"+"\n");
+                                }catch(Exception ex){
+                                ex.printStackTrace();
+                                }
                         }
                     });
 
@@ -401,20 +438,12 @@ imageView7.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent
 
                         @Override
                         public void handle(MouseEvent event) {
- 
-                             if(xoFlag==0){
-                            
-                                File file=new File("D:\\ITI\\Java\\JavaTicTacToe\\Ximg.PNG");
-                                Image image = new Image(file.toURI().toString());
-                                imageView7.setImage(image);
-                                xoFlag=1;
-                             }
-                             else{
-                                File file=new File("D:\\ITI\\Java\\JavaTicTacToe\\Oimg.PNG");
-                                Image image = new Image(file.toURI().toString());
-                                imageView7.setImage(image);
-                                xoFlag=0;
-                             }
+                             try{
+                                ps=new PrintStream(mySocket.getOutputStream());
+                                ps.println("rect7"+"\n");
+                                }catch(Exception ex){
+                                ex.printStackTrace();
+                                }
                         }
                     });
 
@@ -422,20 +451,12 @@ imageView8.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent
 
                         @Override
                         public void handle(MouseEvent event) {
- 
-                             if(xoFlag==0){
-                            
-                                File file=new File("D:\\ITI\\Java\\JavaTicTacToe\\Ximg.PNG");
-                                Image image = new Image(file.toURI().toString());
-                                imageView8.setImage(image);
-                                xoFlag=1;
-                             }
-                             else{
-                                File file=new File("D:\\ITI\\Java\\JavaTicTacToe\\Oimg.PNG");
-                                Image image = new Image(file.toURI().toString());
-                                imageView8.setImage(image);
-                                xoFlag=0;
-                             }
+                             try{
+                                ps=new PrintStream(mySocket.getOutputStream());
+                                ps.println("rect8"+"\n");
+                                }catch(Exception ex){
+                                ex.printStackTrace();
+                                }
                         }
                     });
 
