@@ -35,6 +35,7 @@ public class JavaTicTacToe extends Application {
      */
     public static void main(String[] args) {
         launch(args);
+    
     }
     
 }

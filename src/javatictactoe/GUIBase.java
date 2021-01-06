@@ -4,7 +4,6 @@ import java.io.DataInputStream;
 import java.io.File;
 import java.io.PrintStream;
 import java.net.Socket;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -13,6 +12,9 @@ import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Rectangle;
 
 public class GUIBase extends AnchorPane implements Runnable{ 
+    /*In game array we will represet X as 4 and O as 5 and game[0] is rect0 game[1] is rect1 and so on used to check who wins (used also to be flags 0 means this place not used yet)*/
+    int[] game = {0, 0, 0, 0, 0, 0, 0, 0, 0};  //this array is NOT used for the DB and replay as it doesn't show the sequence order
+    String[] gameRecord; //not used yet
     Socket mySocket;
     DataInputStream dis;
     PrintStream ps;
@@ -25,42 +27,52 @@ public class GUIBase extends AnchorPane implements Runnable{
             dis=new DataInputStream(mySocket.getInputStream());
             String replyMsg=dis.readLine();
             System.out.println(replyMsg);
-            //switch case 
+            
+            
             if(xoFlag==0){  
                     xoFlag=1;
                     File file=new File("D:\\ITI\\Java\\JavaTicTacToe\\Ximg.PNG");
                     Image image = new Image(file.toURI().toString());
                     switch(replyMsg){
                         case "rect0":
+                                   game[0]=4;// 4 means X
                                    imageView0.setImage(image);
                                    break;
                         case "rect1":
+                                   game[1]=4;
                                    imageView1.setImage(image);
-                                   break;   
+                                   break;    
                         case "rect2":
+                                   game[2]=4;
                                    imageView2.setImage(image);
                                    break;                                   
                         case "rect3":
+                                   game[3]=4;
                                    imageView3.setImage(image);
                                    break;                    
                          case "rect4":
+                                   game[4]=4;
                                    imageView4.setImage(image);
                                    break;                   
                         case "rect5":
+                                   game[5]=4;
                                    imageView5.setImage(image);
                                    break;                    
                         case "rect6":
+                                   game[6]=4;
                                    imageView6.setImage(image);
                                    break;                
                         case "rect7":
+                                   game[7]=4;
                                    imageView7.setImage(image);
                                    break;
                         case "rect8":
+                                   game[8]=4;
                                    imageView8.setImage(image);
                                    break;                                   
                     }
  
-                    
+             
             }
             else{
                     xoFlag=0;
@@ -68,41 +80,104 @@ public class GUIBase extends AnchorPane implements Runnable{
                     Image image = new Image(file.toURI().toString());
                     switch(replyMsg){
                         case "rect0":
+                                   game[0]=5;//5 means O
                                    imageView0.setImage(image);
                                    break;
                         case "rect1":
+                                    game[1]=5;
                                    imageView1.setImage(image);
                                    break;   
                         case "rect2":
+                                    game[2]=5;
                                    imageView2.setImage(image);
                                    break;                                   
                         case "rect3":
+                                    game[3]=5;
                                    imageView3.setImage(image);
                                    break;                    
                          case "rect4":
+                                    game[4]=5;
                                    imageView4.setImage(image);
                                    break;                   
                         case "rect5":
+                                    game[5]=5;
                                    imageView5.setImage(image);
                                    break;                    
                         case "rect6":
+                                    game[6]=5;
                                    imageView6.setImage(image);
                                    break;                
                         case "rect7":
+                                    game[7]=5;
                                    imageView7.setImage(image);
                                    break;
                         case "rect8":
+                                    game[8]=5;
                                    imageView8.setImage(image);
                                    break;                                   
                     }
+                  
                     
              }        
             
         }
         catch(Exception ex){
            ex.printStackTrace();}       
+    /****************************after every turn check if any body won******************************/
+        if((game[0]==game[1])&&(game[1]==game[2])&&(game[0]!=0)){
+             if(game[0]==4){System.out.println("X wins");} 
+             else{System.out.println("O wins");}
+             break;
+        } 
+        
+        if((game[3]==game[4])&&(game[4]==game[5])&&(game[3]!=0)){
+             if(game[0]==4){System.out.println("X wins");} 
+             else{System.out.println("O wins");}
+             break;
+        } 
+        if((game[6]==game[7])&&(game[7]==game[8])&&(game[6]!=0)){
+             if(game[0]==4){System.out.println("X wins");} 
+             else{System.out.println("O wins");}
+             break;
+        } 
+        if((game[0]==game[7])&&(game[7]==game[3])&&(game[0]!=0)){
+             if(game[0]==4){System.out.println("X wins");} 
+             else{System.out.println("O wins");}
+             break;
+        } 
+        if((game[5]==game[8])&&(game[8]==game[0])&&(game[5]!=0)){
+             if(game[0]==4){System.out.println("X wins");} 
+             else{System.out.println("O wins");}
+             break;
+        } 
+        if((game[1]==game[8])&&(game[8]==game[4])&&(game[1]!=0)){
+             if(game[0]==4){System.out.println("X wins");} 
+             else{System.out.println("O wins");}
+             break;
+        } 
+        if((game[2]==game[6])&&(game[6]==game[5])&&(game[2]!=0)){
+             if(game[0]==4){System.out.println("X wins");} 
+             else{System.out.println("O wins");}
+             break;
+        } 
+        if((game[3]==game[2])&&(game[2]==game[8])&&(game[3]!=0)){
+             if(game[0]==4){System.out.println("X wins");} 
+             else{System.out.println("O wins");}
+             break;
+        } 
+   
+        //if(((game[0]==game[1])&&(game[1]==game[2]))||((game[3]==game[4])&&(game[4]==game[5]))||((game[6]==game[7])&&(game[7]==game[8]))){break;}
+        //if(((game[0]==game[7])&&(game[7]==game[3]))||((game[1]==game[8])&&(game[8]==game[4]))||((game[2]==game[6])&&(game[6]==game[5]))){break;}
+        //if(((game[5]==game[8])&&(game[8]==game[0]))||((game[3]==game[2])&&(game[2]==game[8]))){break;}
+   
+        
+        }
     }
-    }
+    
+/******************************************************************************************************************/
+/**********************************************End of Run *********************************************************/
+/******************************************************************************************************************/
+  
     int xoFlag=0;
     protected final ImageView imageView;
     protected final Rectangle rectangle;
@@ -123,8 +198,11 @@ public class GUIBase extends AnchorPane implements Runnable{
     protected final ImageView imageView6;
     protected final ImageView imageView7;
     protected final ImageView imageView8;
-
+/****************************************************************************************/
+/***************************************** Constructor **********************************/
+/****************************************************************************************/
     public GUIBase() {
+
 
         imageView = new ImageView();
         rectangle = new Rectangle();
@@ -156,7 +234,7 @@ public class GUIBase extends AnchorPane implements Runnable{
         imageView.setPreserveRatio(true);
         
 
-             try{
+        try{
                     mySocket=new Socket("127.0.0.1",5005);
 
         }
@@ -350,7 +428,7 @@ imageView0.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent
                         public void handle(MouseEvent event) {
                              try{
                                 ps=new PrintStream(mySocket.getOutputStream());
-                                ps.println("rect0"+"\n");
+                                ps.println("rect0");
                                 }catch(Exception ex){
                                 ex.printStackTrace();
                                 }
@@ -362,7 +440,7 @@ imageView1.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent
                         public void handle(MouseEvent event) {
                              try{
                                 ps=new PrintStream(mySocket.getOutputStream());
-                                ps.println("rect1"+"\n");
+                                ps.println("rect1");
                                 }catch(Exception ex){
                                 ex.printStackTrace();
                                 }
@@ -375,7 +453,7 @@ imageView2.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent
                         public void handle(MouseEvent event) {
                               try{
                                 ps=new PrintStream(mySocket.getOutputStream());
-                                ps.println("rect2"+"\n");
+                                ps.println("rect2");
                                 }catch(Exception ex){
                                 ex.printStackTrace();
                                 }
@@ -388,7 +466,7 @@ imageView3.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent
                         public void handle(MouseEvent event) {
                              try{
                                 ps=new PrintStream(mySocket.getOutputStream());
-                                ps.println("rect3"+"\n");
+                                ps.println("rect3");
                                 }catch(Exception ex){
                                 ex.printStackTrace();
                                 }
@@ -401,7 +479,7 @@ imageView4.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent
                         public void handle(MouseEvent event) {
                              try{
                                 ps=new PrintStream(mySocket.getOutputStream());
-                                ps.println("rect4"+"\n");
+                                ps.println("rect4");
                                 }catch(Exception ex){
                                 ex.printStackTrace();
                                 }
@@ -414,7 +492,7 @@ imageView5.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent
                         public void handle(MouseEvent event) {
                              try{
                                 ps=new PrintStream(mySocket.getOutputStream());
-                                ps.println("rect5"+"\n");
+                                ps.println("rect5");
                                 }catch(Exception ex){
                                 ex.printStackTrace();
                                 }
@@ -427,7 +505,7 @@ imageView6.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent
                         public void handle(MouseEvent event) {
                              try{
                                 ps=new PrintStream(mySocket.getOutputStream());
-                                ps.println("rect6"+"\n");
+                                ps.println("rect6");
                                 }catch(Exception ex){
                                 ex.printStackTrace();
                                 }
@@ -440,7 +518,7 @@ imageView7.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent
                         public void handle(MouseEvent event) {
                              try{
                                 ps=new PrintStream(mySocket.getOutputStream());
-                                ps.println("rect7"+"\n");
+                                ps.println("rect7");
                                 }catch(Exception ex){
                                 ex.printStackTrace();
                                 }
@@ -453,7 +531,7 @@ imageView8.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent
                         public void handle(MouseEvent event) {
                              try{
                                 ps=new PrintStream(mySocket.getOutputStream());
-                                ps.println("rect8"+"\n");
+                                ps.println("rect8");
                                 }catch(Exception ex){
                                 ex.printStackTrace();
                                 }
@@ -462,4 +540,6 @@ imageView8.addEventHandler(MouseEvent.MOUSE_CLICKED, new EventHandler<MouseEvent
 
 
     }
+    
+
 }
